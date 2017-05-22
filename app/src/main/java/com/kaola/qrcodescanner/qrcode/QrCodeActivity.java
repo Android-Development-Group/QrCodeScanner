@@ -5,15 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Vibrator;
 import android.text.TextUtils;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -65,8 +62,8 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
     private static final float BEEP_VOLUME = 0.10f;
     private static final long VIBRATE_DURATION = 200L;
     private MediaPlayer mMediaPlayer;
-    private boolean mPlayBeep;
-    private boolean mVibrate;
+    private boolean mPlayBeep;//声音
+    private boolean mVibrate;//震动
     private boolean mNeedFlashLightOpen = true;
     private ImageView mIvFlashLight;
     private TextView mTvFlashLightText;
@@ -149,13 +146,13 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
             surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         }
 
-        mPlayBeep = true;
-        AudioManager audioService = (AudioManager) getSystemService(AUDIO_SERVICE);
-        if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
-            mPlayBeep = false;
-        }
-        initBeepSound();
-        mVibrate = true;
+//        mPlayBeep = true;
+//        AudioManager audioService = (AudioManager) getSystemService(AUDIO_SERVICE);
+//        if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
+//            mPlayBeep = false;
+//        }
+//        initBeepSound();
+//        mVibrate = true;
     }
 
     @Override
@@ -183,7 +180,7 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
      */
     public void handleDecode(Result result) {
         mInactivityTimer.onActivity();
-        playBeepSoundAndVibrate();
+//        playBeepSoundAndVibrate();
         if (null == result) {
             mDecodeManager.showCouldNotReadQrCodeFromScanner(this, new DecodeManager.OnRefreshCameraListener() {
                 @Override
@@ -253,7 +250,7 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
         return mCaptureActivityHandler;
     }
 
-    private void initBeepSound() {
+  /*  private void initBeepSound() {
         if (mPlayBeep && mMediaPlayer == null) {
             // The volume on STREAM_SYSTEM is not adjustable, and users found it too loud,
             // so we now play on the music stream.
@@ -272,9 +269,9 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
                 mMediaPlayer = null;
             }
         }
-    }
+    }*/
 
-    private void playBeepSoundAndVibrate() {
+  /*  private void playBeepSoundAndVibrate() {
         if (mPlayBeep && mMediaPlayer != null) {
             mMediaPlayer.start();
         }
@@ -282,16 +279,16 @@ public class QrCodeActivity extends Activity implements Callback, OnClickListene
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vibrator.vibrate(VIBRATE_DURATION);
         }
-    }
+    }*/
 
     /**
      * When the beep has finished playing, rewind to queue up another one.
      */
-    private final MediaPlayer.OnCompletionListener mBeepListener = new MediaPlayer.OnCompletionListener() {
+  /*  private final MediaPlayer.OnCompletionListener mBeepListener = new MediaPlayer.OnCompletionListener() {
         public void onCompletion(MediaPlayer mediaPlayer) {
             mediaPlayer.seekTo(0);
         }
-    };
+    };*/
 
     @Override
     public void onClick(View v) {
